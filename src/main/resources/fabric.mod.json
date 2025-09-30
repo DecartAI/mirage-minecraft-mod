@@ -1,0 +1,48 @@
+{
+	"schemaVersion": 1,
+	"id": "mirage-minecraft-mod",
+	"version": "${version}",
+	"name": "mirage-minecraft-mod",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/mirage-minecraft-mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "ai.decart.oasis.Mirageminecraftmod",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "ai.decart.oasis.MirageminecraftmodClient",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"mirage-minecraft-mod.mixins.json",
+		{
+			"config": "mirage-minecraft-mod.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
