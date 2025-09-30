@@ -1,35 +1,27 @@
 {
 	"schemaVersion": 1,
 	"id": "mirage-minecraft-mod",
-	"version": "${version}",
-	"name": "mirage-minecraft-mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"version": "1.0.0",
+	"name": "Mirage Minecraft Mod",
+	"description": "A real-time AI mod powered by our MirageLSD model that transforms your world as you play.",
 	"authors": [
-		"Me!"
+		"Decart"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/DecartAI/mirage-minecraft-mod"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/mirage-minecraft-mod/icon.png",
-	"environment": "*",
+	"license": "MIT",
+	"icon": "icon.png",
+	"environment": "client",
 	"entrypoints": {
-		"main": [
-			{
-				"value": "ai.decart.oasis.Mirageminecraftmod",
-				"adapter": "kotlin"
-			}
-		],
 		"client": [
 			{
-				"value": "ai.decart.oasis.MirageminecraftmodClient",
+				"value": "ai.decart.oasis.OasisClient",
 				"adapter": "kotlin"
 			}
 		]
 	},
 	"mixins": [
-		"mirage-minecraft-mod.mixins.json",
 		{
 			"config": "mirage-minecraft-mod.client.mixins.json",
 			"environment": "client"
@@ -41,8 +33,5 @@
 		"java": ">=21",
 		"fabric-api": "*",
 		"fabric-language-kotlin": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }

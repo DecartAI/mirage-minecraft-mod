@@ -3,7 +3,11 @@
 	"package": "ai.decart.oasis.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ExampleClientMixin"
+		"BufferManagerAccessor",
+		"GameRendererMixin",
+		"GlGpuBufferAccessor",
+		"InGameHudMixin",
+		"WorldRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

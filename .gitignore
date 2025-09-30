@@ -1,40 +1,10 @@
-# gradle
+# gradle build
+/.gradle/
+/.kotlin/
+/build/
 
-.gradle/
-build/
-out/
-classes/
+# vscode build
+/bin/
 
-# eclipse
-
-*.launch
-
-# idea
-
-.idea/
-*.iml
-*.ipr
-*.iws
-
-# vscode
-
-.settings/
-.vscode/
-bin/
-.classpath
-.project
-
-# macos
-
-*.DS_Store
-
-# fabric
-
-run/
-
-# java
-
-hs_err_*.log
-replay_*.log
-*.hprof
-*.jfr
+# fabric client save folder
+/run/
