@@ -8,7 +8,6 @@ import com.mojang.blaze3d.buffers.GpuBuffer
 import com.mojang.blaze3d.opengl.GlConst
 import com.mojang.blaze3d.opengl.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.textures.GpuTexture
 import com.mojang.blaze3d.textures.TextureFormat
 
 import net.minecraft.client.gl.Framebuffer
@@ -41,7 +40,7 @@ object Graphics {
 	// the ARB buffer manager only creates immutable buffers, so we implement the direct method ourselves
 	fun createMutableBuffer(usage: Int, size: Int): GlGpuBuffer {
 		GlStateManager.clearGlErrors()
-		val bufferId: Int = GlStateManager._glGenBuffers()
+		val bufferId = GlStateManager._glGenBuffers()
 		GlStateManager._glBindBuffer(GlConst.GL_COPY_WRITE_BUFFER, bufferId)
 		GlStateManager._glBufferData(GlConst.GL_COPY_WRITE_BUFFER, size.toLong(), GlConst.bufferUsageToGlEnum(usage))
 		GlStateManager._glBindBuffer(GlConst.GL_COPY_WRITE_BUFFER, 0)
@@ -74,7 +73,7 @@ object Graphics {
 	// updates a texture from an RGBA buffer using a PBO for passing the data to the GPU
 	// this updates the region from `(0, 0)` to `(width, height)`, the texture can be bigger than it
 	// the `pbo` must have been created using the `createMutableBuffer` function
-	fun updateTextureUsingPBO(texture: GpuTexture, pbo: GpuBuffer, bufferRGBA: ByteBuffer, width: Int, height: Int) {
+	fun updateTextureUsingPBO(texture: GlTexture, pbo: GlGpuBuffer, bufferRGBA: ByteBuffer, width: Int, height: Int) {
 		require(!texture.isClosed)
 		require(0 < width && width <= texture.getWidth(0))
 		require(0 < height && height <= texture.getHeight(0))
@@ -103,7 +102,7 @@ object Graphics {
 		GlStateManager._glUnmapBuffer(GlConst.GL_PIXEL_UNPACK_BUFFER)
 
 		// bind the texture
-		GlStateManager._bindTexture((texture as GlTexture).glId)
+		GlStateManager._bindTexture(texture.glId)
 
 		// copy the PBO to the texture
 		GlStateManager._pixelStore(GlConst.GL_UNPACK_SKIP_ROWS, 0)
@@ -163,7 +162,7 @@ object Graphics {
 			require(bufferRGBA.limit() == width * height * 4)
 
 			// update our FBO's texture with the image from the buffer
-			Graphics.updateTextureUsingPBO(fbo.colorAttachment!!, pbo, bufferRGBA, width, height)
+			Graphics.updateTextureUsingPBO(fbo.colorAttachment as GlTexture, pbo, bufferRGBA, width, height)
 
 			// copy our FBO to the window FBO, scaled
 			Graphics.blitFBO(
