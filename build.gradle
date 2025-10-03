@@ -38,10 +38,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-	// kotlinx-serialization for JSON parsing
-	implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:${project.kotlinx_serialization_version}"
-
-	// WebRTC
+	// webrtc-java for WebRTC communication
 	implementation "dev.onvoid.webrtc:webrtc-java:${project.webrtc_java_version}"
 	include "dev.onvoid.webrtc:webrtc-java:${project.webrtc_java_version}"
 	implementation "dev.onvoid.webrtc:webrtc-java:${project.webrtc_java_version}:windows-x86_64"
