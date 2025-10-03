@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
-	"id": "mirage-minecraft-mod",
-	"version": "1.0.0",
+	"id": "${mod_id}",
+	"version": "${mod_version}",
 	"name": "Mirage Minecraft Mod",
 	"description": "A real-time AI mod powered by our MirageLSD model that transforms your world as you play.",
 	"authors": [
@@ -16,22 +16,22 @@
 	"entrypoints": {
 		"client": [
 			{
-				"value": "ai.decart.oasis.OasisClient",
+				"value": "${mod_package}.OasisClient",
 				"adapter": "kotlin"
 			}
 		]
 	},
 	"mixins": [
 		{
-			"config": "mirage-minecraft-mod.client.mixins.json",
+			"config": "${mod_id}.client.mixins.json",
 			"environment": "client"
 		}
 	],
 	"depends": {
-		"fabricloader": ">=0.17.2",
-		"minecraft": "~1.21.8",
 		"java": ">=21",
-		"fabric-api": "*",
-		"fabric-language-kotlin": "*"
+		"minecraft": "~${minecraft_version}",
+		"fabricloader": "~${fabric_loader_version}",
+		"fabric-api": "~${fabric_api_version}",
+		"fabric-language-kotlin": "~${fabric_kotlin_version}"
 	}
 }

@@ -6,10 +6,10 @@ plugins {
 }
 
 version = project.mod_version
-group = project.maven_group
+group = project.mod_package
 
 base {
-	archivesName = project.archives_base_name
+	archivesName = project.mod_id
 }
 
 repositories {
@@ -20,7 +20,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		'decart-oasis' {
+		"${project.mod_id}" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
@@ -31,11 +31,11 @@ loom {
 dependencies {
 	// Minecraft & Fabric Loader
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings_version}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
 
 	// Fabric API & Fabric Language Kotlin
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
 	// webrtc-java for WebRTC communication
@@ -56,10 +56,24 @@ dependencies {
 }
 
 processResources {
-	inputs.property 'version', project.version
+	inputs.property 'mod_id', project.mod_id
+	inputs.property 'mod_package', project.mod_package
+	inputs.property 'mod_version', project.mod_version
+	inputs.property 'minecraft_version', project.minecraft_version
+	inputs.property 'fabric_loader_version', project.fabric_loader_version
+	inputs.property 'fabric_api_version', project.fabric_api_version
+	inputs.property 'fabric_kotlin_version', project.fabric_kotlin_version
 
 	filesMatching('fabric.mod.json') {
-		expand "version": inputs.properties.version
+		expand([
+			mod_id: inputs.properties.mod_id,
+			mod_package: inputs.properties.mod_package,
+			mod_version: inputs.properties.mod_version,
+			minecraft_version: inputs.properties.minecraft_version,
+			fabric_loader_version: inputs.properties.fabric_loader_version,
+			fabric_api_version: inputs.properties.fabric_api_version,
+			fabric_kotlin_version: inputs.properties.fabric_kotlin_version,
+		])
 	}
 }
 
