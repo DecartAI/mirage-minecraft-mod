@@ -19,7 +19,7 @@ sealed interface MirageOutgoingMessage
 @SerialName("prompt")
 data class MirageOutgoingPromptMessage(
 	val prompt: String,
-	val should_enrich: Boolean,
+	val enhance_prompt: Boolean,
 ) : MirageOutgoingMessage
 
 @Serializable

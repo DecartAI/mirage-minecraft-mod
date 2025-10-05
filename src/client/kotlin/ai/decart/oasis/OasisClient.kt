@@ -125,7 +125,7 @@ object OasisClient : ClientModInitializer {
 				if (currentPromptIndex == currentRecommendedPrompts.size) {
 					currentPromptIndex = 0
 				}
-				sendPrompt(currentRecommendedPrompts[currentPromptIndex].value, shouldEnrich = false)
+				sendPrompt(currentRecommendedPrompts[currentPromptIndex].value, enhance = false)
 				currentPrompt = currentRecommendedPrompts[currentPromptIndex].key
 			}
 
@@ -134,7 +134,7 @@ object OasisClient : ClientModInitializer {
 					currentPromptIndex = currentRecommendedPrompts.size
 				}
 				currentPromptIndex--
-				sendPrompt(currentRecommendedPrompts[currentPromptIndex].value, shouldEnrich = false)
+				sendPrompt(currentRecommendedPrompts[currentPromptIndex].value, enhance = false)
 				currentPrompt = currentRecommendedPrompts[currentPromptIndex].key
 			}
 
@@ -192,7 +192,7 @@ object OasisClient : ClientModInitializer {
 						.executes { context ->
 							if (isConnected) {
 								currentPrompt = StringArgumentType.getString(context, "prompt")
-								sendPrompt(currentPrompt, shouldEnrich = true)
+								sendPrompt(currentPrompt, enhance = true)
 								Utils.sendChatMessage(context, Text.literal("Prompt sent: \"${Utils.shortString(currentPrompt, 50)}\"").formatted(Formatting.GREEN))
 							} else {
 								Utils.sendChatMessage(context, Text.literal("Not connected yet! Use \"/oasis start\" to start a new session.").formatted(Formatting.YELLOW))
@@ -248,18 +248,18 @@ object OasisClient : ClientModInitializer {
 					Utils.sendChatMessage(Text.literal("Usage: /say Oasis\$prompt <your prompt>"))
 					return
 				}
-				sendPrompt(prompt, shouldEnrich = true)
+				sendPrompt(prompt, enhance = true)
 				currentPrompt = prompt
 			}
 			else -> Utils.sendChatMessage(Text.literal("Unknown ${Utils.modMetadata.name} command. Try one of: show, hide, toggle, prompt."))
 		}
 	}
 
-	fun sendPrompt(inputPrompt: String, shouldEnrich: Boolean) {
+	fun sendPrompt(prompt: String, enhance: Boolean) {
 		if (!isConnected) {
 			return
 		}
-		webSocket?.sendMessage<MirageOutgoingMessage>(MirageOutgoingPromptMessage(prompt = inputPrompt, should_enrich = shouldEnrich))
+		webSocket?.sendMessage<MirageOutgoingMessage>(MirageOutgoingPromptMessage(prompt = prompt, enhance_prompt = enhance))
 	}
 
 	fun afterRenderWorld() {
@@ -498,7 +498,7 @@ object OasisClient : ClientModInitializer {
 						isConnected = true
 
 						// send the initial prompt
-						sendPrompt(currentRecommendedPrompts[currentPromptIndex].value, shouldEnrich = false)
+						sendPrompt(currentRecommendedPrompts[currentPromptIndex].value, enhance = false)
 					}
 					RTCPeerConnectionState.FAILED, RTCPeerConnectionState.DISCONNECTED, RTCPeerConnectionState.CLOSED -> {
 						onUnexpectedError()
