@@ -461,6 +461,8 @@ object OasisClient : ClientModInitializer {
 				Utils.log("Received error message: ${message.error}")
 				onUnexpectedError(if (message.error == "401: Invalid API key") "Invalid API key" else null)
 			}
+			is MirageIncomingSessionIdMessage -> {}
+			is MirageIncomingPromptAckMessage -> {}
 		}
 	}
 
