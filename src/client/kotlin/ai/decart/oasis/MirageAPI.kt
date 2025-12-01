@@ -56,3 +56,25 @@ data class MirageIncomingAnswerMessage(
 data class MirageIncomingErrorMessage(
 	val error: String,
 ) : MirageIncomingMessage
+
+@Serializable
+@SerialName("session_id")
+data class MirageIncomingSessionIdMessage(
+	val session_id: String,
+	val server_port: Int,
+	val server_ip: String,
+) : MirageIncomingMessage
+
+@Serializable
+@SerialName("prompt_ack")
+data class MirageIncomingPromptAckMessage(
+	val prompt: String,
+	val success: Boolean,
+	val error: String? = null,
+) : MirageIncomingMessage
+
+@Serializable
+@SerialName("generation_started")
+data class MirageIncomingGenerationStartedMessage(
+    val dummy: String? = null
+) : MirageIncomingMessage

@@ -51,6 +51,9 @@ import dev.onvoid.webrtc.RTCIceCandidate
 import dev.onvoid.webrtc.RTCOfferOptions
 import dev.onvoid.webrtc.RTCPeerConnection
 import dev.onvoid.webrtc.RTCPeerConnectionState
+import dev.onvoid.webrtc.RTCRtpEncodingParameters
+import dev.onvoid.webrtc.RTCRtpParameters
+import dev.onvoid.webrtc.RTCRtpSender
 import dev.onvoid.webrtc.RTCRtpTransceiver
 import dev.onvoid.webrtc.RTCRtpTransceiverInit
 import dev.onvoid.webrtc.RTCSdpType
@@ -461,6 +464,9 @@ object OasisClient : ClientModInitializer {
 				Utils.log("Received error message: ${message.error}")
 				onUnexpectedError(if (message.error == "401: Invalid API key") "Invalid API key" else null)
 			}
+			is MirageIncomingSessionIdMessage -> {}
+			is MirageIncomingPromptAckMessage -> {}
+			is MirageIncomingGenerationStartedMessage -> {}
 		}
 	}
 
@@ -556,6 +562,16 @@ object OasisClient : ClientModInitializer {
 		val videoTrack = WebRTC.peerConnectionFactory.createVideoTrack("videoTrack", videoSource)
 		val transceiver = peerConnection!!.addTransceiver(videoTrack, RTCRtpTransceiverInit())
 		WebRTC.preferVideoCodec(transceiver, "VP8")
+
+		val sender = transceiver.sender
+		val parameters = sender.parameters
+		if (parameters.encodings.isNotEmpty()) {
+			val encoding = parameters.encodings[0]
+			encoding.minBitrate = 400 * 1000
+			encoding.maxBitrate = 2500 * 1000
+			sender.setParameters(parameters)
+			Utils.log("Configured VP8 sender bitrate: min=400kbps, max=2.5mbps")
+		}
 	}
 
 	fun onUnexpectedError(message: String? = null) {
