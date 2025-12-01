@@ -168,12 +168,19 @@ object OasisClient : ClientModInitializer {
 		}
 		oasisCommand.then(oasisStatusCommand)
 
-		val oasisStartCommand =
-			ClientCommandManager.literal("start")
-				.then(
-					ClientCommandManager.argument("API Key", StringArgumentType.greedyString())
-						.executes { context -> onStartCommand(context, StringArgumentType.getString(context, "API Key").trim()); 1 }
-				)
+		val oasisStartCommand = ClientCommandManager.literal("start")
+
+		if (Utils.MOD_PROD_BUILD) {
+			oasisStartCommand.executes { context ->
+				onStartCommand(context, "oasis-trial-key")
+				1
+			}
+		} else {
+			oasisStartCommand.then(
+				ClientCommandManager.argument("API Key", StringArgumentType.greedyString())
+					.executes { context -> onStartCommand(context, StringArgumentType.getString(context, "API Key").trim()); 1 }
+			)
+		}
 		oasisCommand.then(oasisStartCommand)
 
 		val oasisStopCommand = ClientCommandManager.literal("stop")
