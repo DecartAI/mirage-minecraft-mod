@@ -20,6 +20,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.loader.api.FabricLoader
 
 object Utils {
+	const val MOD_PROD_BUILD = true
 	const val DEBUG = false
 	val modMetadata = FabricLoader.getInstance().getModContainer("mirage-minecraft-mod").orElse(null)!!.metadata
 
