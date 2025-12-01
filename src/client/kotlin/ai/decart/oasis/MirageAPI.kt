@@ -72,3 +72,9 @@ data class MirageIncomingPromptAckMessage(
 	val success: Boolean,
 	val error: String? = null,
 ) : MirageIncomingMessage
+
+@Serializable
+@SerialName("generation_started")
+data class MirageIncomingGenerationStartedMessage(
+    val dummy: String? = null
+) : MirageIncomingMessage
