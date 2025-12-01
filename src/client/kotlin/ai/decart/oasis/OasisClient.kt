@@ -567,10 +567,10 @@ object OasisClient : ClientModInitializer {
 		val parameters = sender.parameters
 		if (parameters.encodings.isNotEmpty()) {
 			val encoding = parameters.encodings[0]
-			encoding.minBitrate = 200 * 1000
+			encoding.minBitrate = 400 * 1000
 			encoding.maxBitrate = 2500 * 1000
 			sender.setParameters(parameters)
-			Utils.log("Configured VP8 sender bitrate: min=200kbps, max=2.5mbps")
+			Utils.log("Configured VP8 sender bitrate: min=400kbps, max=2.5mbps")
 		}
 	}
 
